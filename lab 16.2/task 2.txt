@@ -1,0 +1,14 @@
+import pandas as pd
+
+# Load the dataset
+data = pd.read_csv('/C:/Users/sahas/OneDrive/Desktop/AIAC/lab 16.2/task 2.txt')
+
+# Fill missing values with column mean for numerical columns
+data['Age'].fillna(data['Age'].mean(), inplace=True)
+data['Marks'].fillna(data['Marks'].mean(), inplace=True)
+
+# One-hot encoding for categorical columns
+data = pd.get_dummies(data, columns=['Gender', 'Grade'], drop_first=True)
+
+# Save the cleaned dataset
+data.to_csv('processed_students.csv', index=False)

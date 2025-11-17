@@ -1,0 +1,97 @@
+import pandas as pd
+import numpy as np
+from datetime import timedelta
+
+try:
+    from faker import Faker
+except ImportError:
+    print("Faker library not found. Installing now...")
+    !pip install Faker
+    from faker import Faker
+
+faker = Faker()
+
+def generate_synthetic_admissions_data(num_records=1000):
+    data = []
+    diagnoses = [
+        "Influenza", "Pneumonia", "Appendicitis", "Heart Attack",
+        "Stroke", "Diabetes Complications", "Fracture", "Childbirth",
+        "Kidney Stones", "Bronchitis", "Migraine", "COVID-19"
+    ]
+    insurance_providers = [
+        "Blue Cross Blue Shield", "UnitedHealthcare", "Aetna",
+        "Cigna", "Kaiser Permanente", "Humana", "Medicaid", "Medicare"
+    ]
+
+    for i in range(num_records):
+        patient_id = faker.uuid4()
+        
+        # Admission date between 2022-01-01 and 2024-12-31
+        admission_date = faker.date_between(start_date='-2y', end_date='today')
+        
+        # Discharge date after admission date, within 1 to 30 days
+        discharge_date = admission_date + timedelta(days=np.random.randint(1, 30))
+        
+        # Introduce some cases where discharge is before admission for cleaning test
+        if np.random.rand() < 0.05: # 5% chance of invalid discharge date
+            discharge_date = admission_date - timedelta(days=np.random.randint(1, 5))
+
+        diagnosis = np.random.choice(diagnoses)
+        
+        # Bill amount between $500 and $100,000
+        bill_amount = round(np.random.uniform(500, 100000), 2)
+        
+        # Introduce some missing bill amounts for cleaning test
+        if np.random.rand() < 0.03: # 3% chance of missing bill amount
+            bill_amount = np.nan
+            
+        insurance_provider = np.random.choice(insurance_providers)
+
+        data.append({
+            'patient_id': patient_id,
+            'admission_date': admission_date,
+            'discharge_date': discharge_date,
+            'diagnosis': diagnosis,
+            'bill_amount': bill_amount,
+            'insurance_provider': insurance_provider
+        })
+
+    df = pd.DataFrame(data)
+    return df
+
+print("### Generating Synthetic Hospital Admissions Data")
+# Generate the dataset
+admissions_df = generate_synthetic_admissions_data(num_records=5000)
+display(admissions_df.head())
+print(f"Generated dataset with {len(admissions_df)} records.")
+print("Initial DataFrame Info:")
+admissions_df.info()
+
+print("\n### Cleaning the Dataset")
+print("We will perform the following cleaning steps:")
+print("1. Convert `admission_date` and `discharge_date` to datetime objects.")
+print("2. Handle cases where `discharge_date` is earlier than `admission_date` (e.g., by dropping or adjusting).")
+print("3. Convert `bill_amount` to a numeric type and handle missing values (e.g., fill with median or drop).")
+print("4. Check for duplicate `patient_id` if necessary (though for synthetic data, we ensure uniqueness during generation).")
+
+# 1. Convert date columns to datetime objects
+admissions_df['admission_date'] = pd.to_datetime(admissions_df['admission_date'])
+admissions_df['discharge_date'] = pd.to_datetime(admissions_df['discharge_date'])
+
+# 2. Handle cases where discharge_date is earlier than admission_date
+initial_rows_before_cleaning = len(admissions_df)
+admissions_df = admissions_df[admissions_df['discharge_date'] >= admissions_df['admission_date']]
+print(f"Dropped {initial_rows_before_cleaning - len(admissions_df)} rows where discharge_date was before admission_date.")
+
+# 3. Convert bill_amount to numeric and handle missing values
+# We'll fill missing bill_amounts with the median for simplicity
+admissions_df['bill_amount'] = pd.to_numeric(admissions_df['bill_amount'], errors='coerce')
+median_bill_amount = admissions_df['bill_amount'].median()
+admissions_df['bill_amount'] = admissions_df['bill_amount'].fillna(median_bill_amount)
+print(f"Filled missing bill_amounts with the median value: {median_bill_amount:.2f}.")
+
+# Display cleaned data info and head
+print("\nCleaned DataFrame Info:")
+admissions_df.info()
+print("\nCleaned Data Head:")
+display(admissions_df.head())
