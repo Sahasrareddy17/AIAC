@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Complaint Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            background: #f3f4f6;
+            color: #333;
+        }
+
+        /* Navbar */
+        nav {
+            width: 100%;
+            background: #2c3e50;
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 999;
+        }
+
+        nav .logo {
+            color: white;
+            font-size: 22px;
+            font-weight: 600;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+
+        nav ul li {
+            margin-left: 25px;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #f1c40f;
+        }
+
+        /* Home Section */
+        .home {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
+                url("https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1350&q=80")
+                center/cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-top: 70px;
+        }
+
+        .home h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .home p {
+            font-size: 18px;
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            background: #f1c40f;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: black;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #d4ac0d;
+        }
+
+        /* Form Container */
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-top: 120px;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #bbb;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            border: none;
+            cursor: pointer;
+            background: #2c3e50;
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 5px;
+            transition: 0.3s;
+        }
+
+        .submit-btn:hover {
+            background: #1b2836;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background: #2c3e50;
+            color: white;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .home h1 {
+                font-size: 32px;
+            }
+            nav ul {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">Hostel Complaint Portal</div>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#lodge">Lodge Complaint</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Home Section -->
+    <section id="home" class="home">
+        <div class="home-text">
+            <h1>Welcome to Hostel Complaint Portal</h1>
+            <p>Submit your hostel-related issues easily and track them anytime.</p>
+            <a href="#lodge" class="btn">Lodge Complaint</a>
+        </div>
+    </section>
+
+    <!-- Complaint Form -->
+    <section id="lodge" class="container">
+        <h2>Lodge a Complaint</h2>
+
+        <form class="complaint-form">
+            <div class="input-group">
+                <label>Student Name</label>
+                <input type="text" placeholder="Enter your name" required>
+            </div>
+
+            <div class="input-group">
+                <label>Room Number</label>
+                <input type="text" placeholder="Enter room number" required>
+            </div>
+
+            <div class="input-group">
+                <label>Category</label>
+                <select>
+                    <option>Electricity</option>
+                    <option>Water Supply</option>
+                    <option>Cleaning</option>
+                    <option>Room Repair</option>
+                    <option>Other</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>Complaint Description</label>
+                <textarea placeholder="Describe your issue..." rows="5" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">Submit Complaint</button>
+        </form>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>© 2025 Hostel Complaint Portal | All Rights Reserved</p>
+    </footer>
+
+</body>
+</html>
+
